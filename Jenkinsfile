@@ -13,7 +13,7 @@ pipeline {
                 // ✅ Use GitHub credentials for private/public repo access
                 git branch: 'main',
                     url: 'https://github.com/RahuljiV2004/bluegreen-app.git',
-                    credentialsId: 'Github'   // <-- Add this in Jenkins credentials
+                    credentialsId: 'github-token'   // <-- Add this in Jenkins credentials
             }
         }
 

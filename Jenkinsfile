@@ -10,7 +10,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/RahuljiV2004/bluegreen-app.git'
+                // ✅ Use GitHub credentials for private/public repo access
+                git branch: 'main',
+                    url: 'https://github.com/RahuljiV2004/bluegreen-app.git',
+                    credentialsId: 'github-token'   // <-- Add this in Jenkins credentials
             }
         }
 
@@ -22,6 +25,7 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
+                // ✅ Use your DockerHub credentials (ID: dockerhub-pass)
                 withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'DOCKERHUB_PASS')]) {
                     sh '''
                         echo "$DOCKERHUB_PASS" | docker login -u rahulji2004 --password-stdin
@@ -44,9 +48,11 @@ pipeline {
         stage('Health Check') {
             steps {
                 script {
-                    def status = sh(script: "curl -s http://localhost:$GREEN_PORT | grep 'Hello' ", returnStatus: true)
+                    def status = sh(script: "curl -s http://localhost:$GREEN_PORT | grep 'Hello'", returnStatus: true)
                     if (status != 0) {
-                        error("Green environment failed health check!")
+                        error("❌ Green environment failed health check!")
+                    } else {
+                        echo "✅ Green environment is healthy."
                     }
                 }
             }

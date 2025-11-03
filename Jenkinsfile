@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rahulji2004/bluegreen-app"
-        BLUE_PORT = "8080"
+        BLUE_PORT = "8082"
         GREEN_PORT = "8081"
     }
 

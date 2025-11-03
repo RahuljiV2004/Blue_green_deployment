@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "rahulji2004/bluegreen-app"
+        DOCKER_IMAGE = "rahulji2004/Blue_green_deployment"
         BLUE_PORT = "8080"
         GREEN_PORT = "8081"
     }
@@ -10,7 +10,7 @@ pipeline {
     stages { 
         stage('Checkout') {
             steps {
-                git 'https://github.com/RahuljiV2004/bluegreen-app.git'
+                git 'https://github.com/RahuljiV2004/Blue_green_deployment'
             }
         }
 

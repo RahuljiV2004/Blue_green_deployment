@@ -96,6 +96,7 @@ app.get('/', (req, res) => {
     `);
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`✅ ${environment} Environment running on port ${port} (version: ${version})`);
 });
+

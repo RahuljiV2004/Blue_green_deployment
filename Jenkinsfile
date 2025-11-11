@@ -59,19 +59,21 @@ pipeline {
         }
 
         /* --------------------------- Stage 5 --------------------------- */
-        stage('Health Check') {
+       stage('Health Check') {
     steps {
         script {
-            def response = sh(script: "curl -s http://localhost:$GREEN_PORT", returnStdout: true).trim()
-            echo "Response from Green Environment: $response"
-            // Check if the response contains the "Blue Environment" or "Green Environment"
-            def status = response.contains('Blue Environment') ? 0 : 1
-            if (status != 0) {
-                error("Green environment failed health check!")
+            echo "⏳ Waiting for Green container to start..."
+            sleep 5  // wait 5 seconds for Node to be ready
+            def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:$GREEN_PORT", returnStdout: true).trim()
+            if (response != '200') {
+                error("❌ Green environment failed health check! Got HTTP $response")
+            } else {
+                echo "✅ Green environment is healthy and responding."
             }
         }
     }
 }
+
 
 
         /* --------------------------- Stage 6 --------------------------- */
